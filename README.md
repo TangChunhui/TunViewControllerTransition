@@ -5,7 +5,7 @@ a category to transition animation
 
 #### Installation
 TunViewControllerTransition is available on CocoaPods. Just add the following to your project Podfile:
-> pod 'TunViewControllerTransition', '~> 0.0.1'
+> pod 'TunViewControllerTransition', '~> 0.0.3'
 
 #### Usage
 ![image](https://github.com/TuYuWang/TunViewControllerTransition/blob/master/思维导图.png)
