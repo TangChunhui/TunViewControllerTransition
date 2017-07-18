@@ -12,7 +12,9 @@
 typedef NS_ENUM(NSInteger, TunVCTransitionType)
 {
     TunVCTransitionType_Transition,
-    TunVCTransitionType_InverseTransition
+    TunVCTransitionType_InverseTransition,
+    TunVCTransitionType_CircleTransition,
+    TunVCTransitionType_CircleInverseTransition
 };
 
 @interface UIViewController ()
@@ -23,6 +25,8 @@ typedef NS_ENUM(NSInteger, TunVCTransitionType)
 
 @property (nonatomic, assign) TunVCTransitionType transitionType;
 
+@property (nonatomic, strong) id<UIViewControllerContextTransitioning> transitionContext;
+
 @end
 
 @implementation UIViewController (TunTransition)
@@ -32,6 +36,7 @@ typedef NS_ENUM(NSInteger, TunVCTransitionType)
 const NSString *typeKey = nil;
 const NSString *fromViewKey = nil;
 const NSString *toViewKey = nil;
+const NSString *transitionContextKey = nil;
 
 // transitionType
 - (void)setTransitionType:(TunVCTransitionType)transitionType
@@ -66,6 +71,17 @@ const NSString *toViewKey = nil;
     return objc_getAssociatedObject(self, &toViewKey);
 }
 
+//transitionContext
+- (void)setTransitionContext:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    objc_setAssociatedObject(self, &transitionContextKey, transitionContext, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (id<UIViewControllerContextTransitioning>)transitionContext
+{
+    return objc_getAssociatedObject(self, &transitionContextKey);
+}
+
 #pragma mark - public method
 
 - (void)animateTransitionFromView:(UIView *)view toView:(NSString *)toViewKeyPath
@@ -79,6 +95,19 @@ const NSString *toViewKey = nil;
 {
     self.navigationController.delegate = self;
     self.transitionType = TunVCTransitionType_InverseTransition;
+}
+
+- (void)animateCircleTransitionFromView:(UIView *)view
+{
+    self.fromView = view;
+    self.transitionType = TunVCTransitionType_CircleTransition;
+
+}
+
+- (void)animateCircleInverseTransition
+{
+    self.navigationController.delegate = self;
+    self.transitionType = TunVCTransitionType_CircleInverseTransition;
 }
 
 #pragma mark - UINavigationControllerDelegate
@@ -109,11 +138,36 @@ const NSString *toViewKey = nil;
             [self animateForInverseTransition:transitionContext];
         }
             break;
-            
+        case TunVCTransitionType_CircleTransition:
+        {
+            [self animateForCircleTransition:transitionContext];
+        }
+            break;
+        case TunVCTransitionType_CircleInverseTransition:
+        {
+            [self animateForCircleInverseTransition:transitionContext];
+        }
+            break;
+    
         default:
             break;
     }
 }
+
+#pragma mark - CAAnimationDelegate
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (!flag) {
+        return;
+    }
+    
+    [self.transitionContext completeTransition:![self.transitionContext transitionWasCancelled]];
+    [self.transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey].view.layer.mask = nil;
+    [self.transitionContext viewControllerForKey:UITransitionContextToViewControllerKey].view.layer.mask = nil;
+}
+
+#pragma mark - transition
 
 - (void)animateForTransition:(id<UIViewControllerContextTransitioning>)transitionContext
 {
@@ -183,6 +237,128 @@ const NSString *toViewKey = nil;
         originView.hidden = NO;
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
     }];
+}
+
+#pragma mark - Circle
+
+- (void)animateForCircleTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    self.transitionContext = transitionContext;
+    
+    UIView *containerView = [transitionContext containerView];
+    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    UIView *fromView = self.fromView;
+    UIView *snapShotView = [fromView snapshotViewAfterScreenUpdates:NO];
+    toVC.fromView = snapShotView;
+    
+    snapShotView.frame = [self relativeFrameForScreenWithView:fromView];
+    [containerView addSubview:snapShotView];
+    [containerView addSubview:toVC.view];
+    
+    CGPoint finalPoint = [self getFinalPoint:toVC forFromView:fromView];
+    
+    CGFloat radius = sqrt((finalPoint.x * finalPoint.x) + (finalPoint.y * finalPoint.y));
+    
+    UIBezierPath *maskStartPath = [UIBezierPath bezierPathWithOvalInRect:snapShotView.frame];
+    
+    UIBezierPath *maskEndPath = [UIBezierPath bezierPathWithOvalInRect:CGRectInset(snapShotView.frame, -radius, -radius)];
+    
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.path = maskEndPath.CGPath;
+    toVC.view.layer.mask = maskLayer;
+    
+    CABasicAnimation *maskAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+    maskAnimation.fromValue = (__bridge id _Nullable)(maskStartPath.CGPath);
+    maskAnimation.toValue = (__bridge id _Nullable)(maskEndPath.CGPath);
+    maskAnimation.duration = [self transitionDuration:transitionContext];
+    maskAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    maskAnimation.delegate = self;
+    [maskLayer addAnimation:maskAnimation forKey:@"Circle"];
+    [snapShotView removeFromSuperview];
+}
+
+- (void)animateForCircleInverseTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    self.transitionContext = transitionContext;
+    
+    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    
+    UIView *containerView = [transitionContext containerView];
+    UIView *toView = fromVC.fromView;
+    
+    [containerView addSubview:toVC.view];
+    [containerView addSubview:fromVC.view];
+    
+    CGPoint finalPoint = [self getFinalPoint:toVC forFromView:toView];
+    
+    CGFloat radius = sqrt((finalPoint.x * finalPoint.x) + (finalPoint.y * finalPoint.y));
+    
+    UIBezierPath *maskStartPath = [UIBezierPath bezierPathWithOvalInRect:CGRectInset(toView.frame, -radius, -radius)];
+    UIBezierPath *maskEndPath = [UIBezierPath bezierPathWithOvalInRect:toView.frame];
+    
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.path = maskEndPath.CGPath;
+    fromVC.view.layer.mask = maskLayer;
+    
+    CABasicAnimation *maskAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+    maskAnimation.fromValue = (__bridge id _Nullable)(maskStartPath.CGPath);
+    maskAnimation.toValue = (__bridge id _Nullable)(maskEndPath.CGPath);
+    maskAnimation.duration = [self transitionDuration:transitionContext];
+    maskAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    maskAnimation.delegate = self;
+    [maskLayer addAnimation:maskAnimation forKey:@"CircleInvert"];
+}
+
+#pragma mark - Utility
+
+- (CGPoint)getFinalPoint:(UIViewController *)toVC forFromView:(UIView *)fromView
+{
+    CGPoint finalPoint;
+    
+    if (fromView.frame.origin.x > (toVC.view.bounds.size.width / 2)) {
+        if (fromView.frame.origin.y < (toVC.view.bounds.size.height / 2)) {
+            
+            finalPoint = CGPointMake(fromView.center.x - 0, fromView.center.y - CGRectGetMaxY(toVC.view.frame));
+        }else
+        {
+            finalPoint = CGPointMake(fromView.center.x - 0, fromView.center.y - 0);
+        }
+    }else
+    {
+        if (fromView.frame.origin.y < (toVC.view.bounds.size.height / 2)) {
+            
+            finalPoint = CGPointMake(fromView.center.x - CGRectGetMaxX(toVC.view.bounds), fromView.center.y - CGRectGetMaxY(toVC.view.bounds));
+        }else
+        {
+            finalPoint = CGPointMake(fromView.center.x - CGRectGetMaxX(toVC.view.bounds), fromView.center.y - 0);
+        }
+    }
+    
+    return finalPoint;
+}
+
+
+- (CGRect)relativeFrameForScreenWithView:(UIView *)v
+{
+    
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    
+    UIView *view = v;
+    CGFloat x = .0;
+    CGFloat y = .0;
+    while (view.frame.size.width != screenWidth || view.frame.size.height != screenHeight) {
+        x += view.frame.origin.x;
+        y += view.frame.origin.y;
+        view = view.superview;
+        if ([view isKindOfClass:[UIScrollView class]]) {
+            x -= ((UIScrollView *) view).contentOffset.x;
+            y -= ((UIScrollView *) view).contentOffset.y;
+        }
+    }
+    return CGRectMake(x, y, v.frame.size.width, v.frame.size.height);
 }
 
 @end

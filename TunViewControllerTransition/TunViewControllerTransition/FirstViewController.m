@@ -18,8 +18,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self animateInverseTransition];
-    
+    if (self.circleTransition) {
+        [self animateCircleInverseTransition];
+    }else
+    {
+        [self animateInverseTransition];
+    }
 }
 
 @end

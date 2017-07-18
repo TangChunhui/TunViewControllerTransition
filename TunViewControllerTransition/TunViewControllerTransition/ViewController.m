@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "UIViewController+TunTransition.h"
 #import "CollectionViewCell.h"
+#import "FirstViewController.h"
+#import "CircleCollectionViewCell.h"
 
 @interface ViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -29,14 +31,29 @@
 
 }
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 2;
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 20;
+    return 4;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    UICollectionViewCell *cell;
+    
+    if (indexPath.section == 1) {
+        CircleCollectionViewCell *tcell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Circle" forIndexPath:indexPath];
+        cell = tcell;
+    }else
+    {
+        CollectionViewCell *tcell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+        cell = tcell;
+
+    }
     return cell;
 }
 
@@ -44,12 +61,19 @@
 {
     //获取指定视图
     CollectionViewCell *cell = (CollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    
-    [self animateTransitionFromView:cell.imageView toView:@"imageView"];
-    
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-    UIViewController *firstVC = [sb instantiateViewControllerWithIdentifier:@"FirstViewController"];
+     FirstViewController *firstVC = [sb instantiateViewControllerWithIdentifier:@"FirstViewController"];
+    
+    if (indexPath.section == 0) {
+        [self animateTransitionFromView:cell.imageView toView:@"imageView"];
+    }else
+    {
+        [self animateCircleTransitionFromView:cell.imageView];
+        firstVC.circleTransition = YES;
+    }
+    
+    
     
     [self.navigationController pushViewController:firstVC animated:YES];
     

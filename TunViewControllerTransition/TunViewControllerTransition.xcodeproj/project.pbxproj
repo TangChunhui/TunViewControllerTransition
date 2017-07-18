@@ -16,6 +16,7 @@
 		E95CAD811F19BD7200B5D014 /* UIViewController+TunTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = E95CAD801F19BD7200B5D014 /* UIViewController+TunTransition.m */; };
 		E95CAD841F19BF1B00B5D014 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E95CAD831F19BF1B00B5D014 /* FirstViewController.m */; };
 		E95CAD8A1F19C10700B5D014 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E95CAD891F19C10700B5D014 /* CollectionViewCell.m */; };
+		E95DD3C01F1DDAB100AAF89F /* CircleCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E95DD3BF1F1DDAB100AAF89F /* CircleCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,8 @@
 		E95CAD831F19BF1B00B5D014 /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
 		E95CAD881F19C10700B5D014 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		E95CAD891F19C10700B5D014 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		E95DD3BE1F1DDAB100AAF89F /* CircleCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleCollectionViewCell.h; sourceTree = "<group>"; };
+		E95DD3BF1F1DDAB100AAF89F /* CircleCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,10 +75,9 @@
 				E95CAD6B1F19BD2D00B5D014 /* AppDelegate.m */,
 				E95CAD6D1F19BD2D00B5D014 /* ViewController.h */,
 				E95CAD6E1F19BD2E00B5D014 /* ViewController.m */,
-				E95CAD881F19C10700B5D014 /* CollectionViewCell.h */,
-				E95CAD891F19C10700B5D014 /* CollectionViewCell.m */,
 				E95CAD821F19BF1B00B5D014 /* FirstViewController.h */,
 				E95CAD831F19BF1B00B5D014 /* FirstViewController.m */,
+				E95DD3BD1F1DDA9800AAF89F /* Cell */,
 				E95CAD701F19BD2E00B5D014 /* Main.storyboard */,
 				E95CAD731F19BD2E00B5D014 /* Assets.xcassets */,
 				E95CAD751F19BD2E00B5D014 /* LaunchScreen.storyboard */,
@@ -101,6 +103,17 @@
 			);
 			name = "UIViewController+TunTransition";
 			path = "../UIViewController+TunTransition";
+			sourceTree = "<group>";
+		};
+		E95DD3BD1F1DDA9800AAF89F /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				E95CAD881F19C10700B5D014 /* CollectionViewCell.h */,
+				E95CAD891F19C10700B5D014 /* CollectionViewCell.m */,
+				E95DD3BE1F1DDAB100AAF89F /* CircleCollectionViewCell.h */,
+				E95DD3BF1F1DDAB100AAF89F /* CircleCollectionViewCell.m */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -178,6 +191,7 @@
 				E95CAD8A1F19C10700B5D014 /* CollectionViewCell.m in Sources */,
 				E95CAD6F1F19BD2E00B5D014 /* ViewController.m in Sources */,
 				E95CAD6C1F19BD2D00B5D014 /* AppDelegate.m in Sources */,
+				E95DD3C01F1DDAB100AAF89F /* CircleCollectionViewCell.m in Sources */,
 				E95CAD841F19BF1B00B5D014 /* FirstViewController.m in Sources */,
 				E95CAD811F19BD7200B5D014 /* UIViewController+TunTransition.m in Sources */,
 				E95CAD691F19BD2D00B5D014 /* main.m in Sources */,
@@ -341,6 +355,7 @@
 				E95CAD7D1F19BD2E00B5D014 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

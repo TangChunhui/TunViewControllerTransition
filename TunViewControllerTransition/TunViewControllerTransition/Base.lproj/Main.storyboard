@@ -33,17 +33,17 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="sFC-Bf-djd" customClass="CollectionViewCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="165" height="152"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="117" height="152"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="165" height="152"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="117" height="152"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="ln6-oV-hNu">
-                                                    <rect key="frame" x="0.0" y="0.0" width="165" height="117"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="117" height="117"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="click" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LXl-Qh-L1N">
-                                                    <rect key="frame" x="0.0" y="122" width="165" height="25"/>
+                                                    <rect key="frame" x="0.0" y="122" width="117" height="25"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -54,14 +54,44 @@
                                             <constraint firstItem="ln6-oV-hNu" firstAttribute="top" secondItem="sFC-Bf-djd" secondAttribute="top" id="4Kf-Xt-ZEx"/>
                                             <constraint firstAttribute="bottom" secondItem="LXl-Qh-L1N" secondAttribute="bottom" constant="5" id="4d8-BM-p96"/>
                                             <constraint firstAttribute="bottom" secondItem="ln6-oV-hNu" secondAttribute="bottom" constant="35" id="H6D-U2-EbU"/>
+                                            <constraint firstAttribute="trailing" secondItem="ln6-oV-hNu" secondAttribute="trailing" id="MQf-st-XHh"/>
                                             <constraint firstAttribute="trailing" secondItem="LXl-Qh-L1N" secondAttribute="trailing" id="Tmi-qj-hga"/>
                                             <constraint firstItem="LXl-Qh-L1N" firstAttribute="leading" secondItem="sFC-Bf-djd" secondAttribute="leading" id="UlP-Zm-7Fg"/>
                                             <constraint firstItem="LXl-Qh-L1N" firstAttribute="top" secondItem="ln6-oV-hNu" secondAttribute="bottom" constant="5" id="jBj-Dq-AAb"/>
-                                            <constraint firstAttribute="trailing" secondItem="ln6-oV-hNu" secondAttribute="trailing" id="rHG-bC-6ZP"/>
                                             <constraint firstItem="ln6-oV-hNu" firstAttribute="leading" secondItem="sFC-Bf-djd" secondAttribute="leading" id="sQp-Jp-wj5"/>
                                         </constraints>
+                                        <size key="customSize" width="117" height="152"/>
                                         <connections>
                                             <outlet property="imageView" destination="ln6-oV-hNu" id="jOU-nz-BUv"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Circle" id="gmO-xx-E5p" customClass="CircleCollectionViewCell">
+                                        <rect key="frame" x="127" y="16" width="120" height="120"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="ddj-md-7Dv">
+                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="60"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="ddj-md-7Dv" firstAttribute="top" secondItem="gmO-xx-E5p" secondAttribute="top" id="Hfi-Bt-MwP"/>
+                                            <constraint firstAttribute="trailing" secondItem="ddj-md-7Dv" secondAttribute="trailing" id="UBf-ug-sp9"/>
+                                            <constraint firstItem="ddj-md-7Dv" firstAttribute="leading" secondItem="gmO-xx-E5p" secondAttribute="leading" id="h7s-YM-TKo"/>
+                                            <constraint firstAttribute="bottom" secondItem="ddj-md-7Dv" secondAttribute="bottom" id="rvP-8F-ufo"/>
+                                        </constraints>
+                                        <size key="customSize" width="120" height="120"/>
+                                        <connections>
+                                            <outlet property="imageView" destination="ddj-md-7Dv" id="GKT-4l-8nu"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

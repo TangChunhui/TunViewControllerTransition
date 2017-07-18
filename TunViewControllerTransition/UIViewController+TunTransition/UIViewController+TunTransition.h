@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIViewController (TunTransition)<UIViewControllerAnimatedTransitioning,UINavigationControllerDelegate>
+@interface UIViewController (TunTransition)<UIViewControllerAnimatedTransitioning,UINavigationControllerDelegate, CAAnimationDelegate>
 /**
  *  @brief 设置正向转场动画
  *  @param view 发生转场的原视图
@@ -18,5 +18,14 @@
 
 /// 逆向转场动画
 - (void)animateInverseTransition;
+
+/**
+ *  @brief 设置正向圆形转场
+ *  @param view 发生转场的原视图
+ **/
+- (void)animateCircleTransitionFromView:(UIView *)view;
+
+/// 逆向转场动画
+- (void)animateCircleInverseTransition;
 
 @end
