@@ -12,7 +12,7 @@
 #import "FirstViewController.h"
 #import "CircleCollectionViewCell.h"
 
-@interface ViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
+@interface ViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
@@ -33,12 +33,22 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return 4;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionReusableView *resuable = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"head" forIndexPath:indexPath];
+    if (!resuable) {
+        resuable = [[UICollectionReusableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 50)];
+        resuable.backgroundColor = [UIColor lightGrayColor];
+    }
+    return resuable;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -67,10 +77,14 @@
     
     if (indexPath.section == 0) {
         [self animateTransitionFromView:cell.imageView toView:@"imageView"];
-    }else
+    }else if(indexPath.section == 1)
     {
         [self animateCircleTransitionFromView:cell.imageView];
         firstVC.circleTransition = YES;
+    }else
+    {
+        [self animatePageTransition];
+        firstVC.pageTransition = YES;
     }
     
     

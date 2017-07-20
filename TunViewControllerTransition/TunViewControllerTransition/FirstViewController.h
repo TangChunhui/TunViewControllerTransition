@@ -14,4 +14,6 @@
 
 @property (nonatomic, assign) BOOL circleTransition;
 
+@property (nonatomic, assign) BOOL pageTransition;
+
 @end

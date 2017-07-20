@@ -14,7 +14,9 @@ typedef NS_ENUM(NSInteger, TunVCTransitionType)
     TunVCTransitionType_Transition,
     TunVCTransitionType_InverseTransition,
     TunVCTransitionType_CircleTransition,
-    TunVCTransitionType_CircleInverseTransition
+    TunVCTransitionType_CircleInverseTransition,
+    TunVCTransitionType_PageTransition,
+    TunVCTransitionType_PageInverseTransition
 };
 
 @interface UIViewController ()
@@ -110,6 +112,17 @@ const NSString *transitionContextKey = nil;
     self.transitionType = TunVCTransitionType_CircleInverseTransition;
 }
 
+- (void)animatePageTransition
+{
+    self.transitionType = TunVCTransitionType_PageTransition;
+}
+
+- (void)animatePageInverseTransition
+{
+    self.navigationController.delegate = self;
+    self.transitionType = TunVCTransitionType_PageInverseTransition;
+}
+
 #pragma mark - UINavigationControllerDelegate
 
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
@@ -148,7 +161,17 @@ const NSString *transitionContextKey = nil;
             [self animateForCircleInverseTransition:transitionContext];
         }
             break;
-    
+        case TunVCTransitionType_PageTransition:
+        {
+            [self animateForPageTransition:transitionContext];
+        }
+            break;
+        case TunVCTransitionType_PageInverseTransition:
+        {
+            [self animateForPageInverseTransition:transitionContext];
+        }
+            break;
+
         default:
             break;
     }
@@ -309,6 +332,91 @@ const NSString *transitionContextKey = nil;
     maskAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     maskAnimation.delegate = self;
     [maskLayer addAnimation:maskAnimation forKey:@"CircleInvert"];
+}
+
+- (void)animateForPageTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIView *containerView = [transitionContext containerView];
+    
+    UIView *fromView = fromVC.view;
+    UIView *toView = toVC.view;
+    
+    [containerView addSubview:toView];
+    [containerView sendSubviewToBack:toView];
+    
+    CATransform3D transform = CATransform3DIdentity;
+    transform.m34 = -0.002;
+    containerView.layer.sublayerTransform = transform;
+    
+    CGRect initialFrame = [transitionContext initialFrameForViewController:fromVC];
+    fromView.frame = initialFrame;
+    toView.frame = initialFrame;
+    
+    fromView.layer.anchorPoint = CGPointMake(0.0, 0.5);
+    fromView.layer.position = CGPointMake(0, CGRectGetMidY([UIScreen mainScreen].bounds));
+    
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = fromView.bounds;
+    gradient.colors = @[(id)[UIColor colorWithWhite:0.0 alpha:0.5].CGColor,
+                        (id)[UIColor colorWithWhite:0.0 alpha:0.0].CGColor];
+    gradient.startPoint = CGPointMake(0.0, 0.5);
+    gradient.endPoint = CGPointMake(0.8, 0.5);
+    
+    UIView *shadow = [[UIView alloc] initWithFrame:fromView.bounds];
+    shadow.backgroundColor = [UIColor clearColor];
+    [shadow.layer insertSublayer:gradient atIndex:1];
+    shadow.alpha = 0.0;
+    
+    [fromView addSubview:shadow];
+    
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+        
+        fromView.layer.transform = CATransform3DMakeRotation(-M_PI_2, 0.0, 1.0, 0.0);
+        shadow.alpha = 1.0;
+        
+    } completion:^(BOOL finished) {
+        
+        fromView.layer.anchorPoint = CGPointMake(0.5, 0.5);
+        fromView.layer.position = CGPointMake(CGRectGetMidX([UIScreen mainScreen].bounds), CGRectGetMidY([UIScreen mainScreen].bounds));
+        fromView.layer.transform = CATransform3DIdentity;
+        [shadow removeFromSuperview];
+        [transitionContext completeTransition:YES];
+    }];
+}
+
+- (void)animateForPageInverseTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    UIView *containerView = [transitionContext containerView];
+    
+    UIView *fromView = fromVC.view;
+    UIView *toView = toVC.view;
+    [containerView addSubview:toView];
+    
+    CATransform3D transform = CATransform3DIdentity;
+    transform.m34 = -0.002;
+    containerView.layer.sublayerTransform = transform;
+    
+    CGRect initialFrame = [transitionContext initialFrameForViewController:fromVC];
+    fromView.frame = initialFrame;
+    toView.frame = initialFrame;
+    toView.layer.anchorPoint = CGPointMake(0.0, 0.5);
+    toView.layer.position = CGPointMake(0, CGRectGetMidY([UIScreen mainScreen].bounds));
+    toView.layer.transform = CATransform3DMakeRotation(-M_PI_2, 0.0, 1.0, 0.0);
+    
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+       
+        toView.layer.transform = CATransform3DMakeRotation(0, 0, 1.0, 0.0);
+        
+    } completion:^(BOOL finished) {
+        
+        toView.layer.anchorPoint = CGPointMake(0.5, 0.5);
+        toView.layer.position = CGPointMake(CGRectGetMidX([UIScreen mainScreen].bounds), CGRectGetMidY([UIScreen mainScreen].bounds));
+        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+    }];
 }
 
 #pragma mark - Utility

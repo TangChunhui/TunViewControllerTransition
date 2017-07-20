@@ -25,7 +25,13 @@
  **/
 - (void)animateCircleTransitionFromView:(UIView *)view;
 
-/// 逆向转场动画
+/// 逆向圆形转场动画
 - (void)animateCircleInverseTransition;
+
+/// 翻页转场
+- (void)animatePageTransition;
+
+/// 逆向翻页转场
+- (void)animatePageInverseTransition;
 
 @end
