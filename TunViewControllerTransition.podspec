@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "TunViewControllerTransition"
-  s.version      = "0.0.3"
+  s.version      = "0.0.4"
   s.summary      = "A transition animation category of ViewController"
 
   # This description is used to generate tags and improve search results.
