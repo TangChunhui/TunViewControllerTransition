@@ -20,6 +20,9 @@
 
     if (self.circleTransition) {
         [self animateCircleInverseTransition];
+    }else if(self.pageTransition)
+    {
+        [self animatePageInverseTransition];
     }else
     {
         [self animateInverseTransition];

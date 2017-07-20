@@ -77,7 +77,7 @@
 				E95CAD6E1F19BD2E00B5D014 /* ViewController.m */,
 				E95CAD821F19BF1B00B5D014 /* FirstViewController.h */,
 				E95CAD831F19BF1B00B5D014 /* FirstViewController.m */,
-				E95DD3BD1F1DDA9800AAF89F /* Cell */,
+				E95DD3BD1F1DDA9800AAF89F /* SubViews */,
 				E95CAD701F19BD2E00B5D014 /* Main.storyboard */,
 				E95CAD731F19BD2E00B5D014 /* Assets.xcassets */,
 				E95CAD751F19BD2E00B5D014 /* LaunchScreen.storyboard */,
@@ -105,7 +105,7 @@
 			path = "../UIViewController+TunTransition";
 			sourceTree = "<group>";
 		};
-		E95DD3BD1F1DDA9800AAF89F /* Cell */ = {
+		E95DD3BD1F1DDA9800AAF89F /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
 				E95CAD881F19C10700B5D014 /* CollectionViewCell.h */,
@@ -113,7 +113,7 @@
 				E95DD3BE1F1DDAB100AAF89F /* CircleCollectionViewCell.h */,
 				E95DD3BF1F1DDAB100AAF89F /* CircleCollectionViewCell.m */,
 			);
-			name = Cell;
+			name = SubViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
