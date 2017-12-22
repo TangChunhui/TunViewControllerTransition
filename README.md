@@ -1,6 +1,8 @@
 # TunViewControllerTransition
 a category to transition animation
 
+[swift版本](https://github.com/TuYuWang/TNTransiton)
+
 ![image](https://github.com/TuYuWang/TunViewControllerTransition/blob/master/effect.gif)
 
 #### Installation
