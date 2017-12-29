@@ -34,4 +34,7 @@
 /// 逆向翻页转场
 - (void)animatePageInverseTransition;
 
+/// 系统跳转动画
+- (void)animateSystem;
+
 @end

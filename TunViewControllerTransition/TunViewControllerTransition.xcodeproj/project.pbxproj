@@ -17,6 +17,8 @@
 		E95CAD841F19BF1B00B5D014 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E95CAD831F19BF1B00B5D014 /* FirstViewController.m */; };
 		E95CAD8A1F19C10700B5D014 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E95CAD891F19C10700B5D014 /* CollectionViewCell.m */; };
 		E95DD3C01F1DDAB100AAF89F /* CircleCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E95DD3BF1F1DDAB100AAF89F /* CircleCollectionViewCell.m */; };
+		E98186CF1FF5CD5C00876B12 /* BeforeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E98186CE1FF5CD5C00876B12 /* BeforeViewController.m */; };
+		E98186D21FF5E16A00876B12 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E98186D11FF5E16A00876B12 /* SecondViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,10 @@
 		E95CAD891F19C10700B5D014 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		E95DD3BE1F1DDAB100AAF89F /* CircleCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleCollectionViewCell.h; sourceTree = "<group>"; };
 		E95DD3BF1F1DDAB100AAF89F /* CircleCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleCollectionViewCell.m; sourceTree = "<group>"; };
+		E98186CD1FF5CD5C00876B12 /* BeforeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BeforeViewController.h; sourceTree = "<group>"; };
+		E98186CE1FF5CD5C00876B12 /* BeforeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BeforeViewController.m; sourceTree = "<group>"; };
+		E98186D01FF5E16A00876B12 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		E98186D11FF5E16A00876B12 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,10 +79,14 @@
 				E95CAD7E1F19BD6100B5D014 /* UIViewController+TunTransition */,
 				E95CAD6A1F19BD2D00B5D014 /* AppDelegate.h */,
 				E95CAD6B1F19BD2D00B5D014 /* AppDelegate.m */,
+				E98186CD1FF5CD5C00876B12 /* BeforeViewController.h */,
+				E98186CE1FF5CD5C00876B12 /* BeforeViewController.m */,
 				E95CAD6D1F19BD2D00B5D014 /* ViewController.h */,
 				E95CAD6E1F19BD2E00B5D014 /* ViewController.m */,
 				E95CAD821F19BF1B00B5D014 /* FirstViewController.h */,
 				E95CAD831F19BF1B00B5D014 /* FirstViewController.m */,
+				E98186D01FF5E16A00876B12 /* SecondViewController.h */,
+				E98186D11FF5E16A00876B12 /* SecondViewController.m */,
 				E95DD3BD1F1DDA9800AAF89F /* SubViews */,
 				E95CAD701F19BD2E00B5D014 /* Main.storyboard */,
 				E95CAD731F19BD2E00B5D014 /* Assets.xcassets */,
@@ -188,9 +198,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E98186D21FF5E16A00876B12 /* SecondViewController.m in Sources */,
 				E95CAD8A1F19C10700B5D014 /* CollectionViewCell.m in Sources */,
 				E95CAD6F1F19BD2E00B5D014 /* ViewController.m in Sources */,
 				E95CAD6C1F19BD2D00B5D014 /* AppDelegate.m in Sources */,
+				E98186CF1FF5CD5C00876B12 /* BeforeViewController.m in Sources */,
 				E95DD3C01F1DDAB100AAF89F /* CircleCollectionViewCell.m in Sources */,
 				E95CAD841F19BF1B00B5D014 /* FirstViewController.m in Sources */,
 				E95CAD811F19BD7200B5D014 /* UIViewController+TunTransition.m in Sources */,

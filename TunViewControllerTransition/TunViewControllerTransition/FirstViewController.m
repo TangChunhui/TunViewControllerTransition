@@ -8,6 +8,7 @@
 
 #import "FirstViewController.h"
 #import "UIViewController+TunTransition.h"
+#import "SecondViewController.h"
 
 @interface FirstViewController ()
 
@@ -15,9 +16,10 @@
 
 @implementation FirstViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
     if (self.circleTransition) {
         [self animateCircleInverseTransition];
     }else if(self.pageTransition)
@@ -27,6 +29,19 @@
     {
         [self animateInverseTransition];
     }
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+}
+
+- (IBAction)push:(id)sender {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    SecondViewController *secondVC = [sb instantiateViewControllerWithIdentifier:@"SecondViewController"];
+    [self animateSystem];
+    [self.navigationController pushViewController:secondVC animated:YES];
 }
 
 @end

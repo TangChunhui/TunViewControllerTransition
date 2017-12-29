@@ -11,6 +11,7 @@
 
 typedef NS_ENUM(NSInteger, TunVCTransitionType)
 {
+    TunVCTransitionType_None,
     TunVCTransitionType_Transition,
     TunVCTransitionType_InverseTransition,
     TunVCTransitionType_CircleTransition,
@@ -36,6 +37,7 @@ typedef NS_ENUM(NSInteger, TunVCTransitionType)
 #pragma mark - init property
 
 const NSString *typeKey = nil;
+const NSString *originTypeKey = nil;
 const NSString *fromViewKey = nil;
 const NSString *toViewKey = nil;
 const NSString *transitionContextKey = nil;
@@ -99,11 +101,15 @@ const NSString *transitionContextKey = nil;
     self.transitionType = TunVCTransitionType_InverseTransition;
 }
 
+- (void)animateSystem
+{
+    self.transitionType = TunVCTransitionType_None;
+}
+
 - (void)animateCircleTransitionFromView:(UIView *)view
 {
     self.fromView = view;
     self.transitionType = TunVCTransitionType_CircleTransition;
-
 }
 
 - (void)animateCircleInverseTransition
@@ -127,7 +133,11 @@ const NSString *transitionContextKey = nil;
 
 - (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
 {
-    return self;
+    if (self.transitionType == TunVCTransitionType_None) {
+        return  nil;
+    }else {
+        return self;
+    }
 }
 
 #pragma mark - UIViewControllerAnimatedTransitioning
@@ -188,6 +198,7 @@ const NSString *transitionContextKey = nil;
     [self.transitionContext completeTransition:![self.transitionContext transitionWasCancelled]];
     [self.transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey].view.layer.mask = nil;
     [self.transitionContext viewControllerForKey:UITransitionContextToViewControllerKey].view.layer.mask = nil;
+
 }
 
 #pragma mark - transition
@@ -196,7 +207,7 @@ const NSString *transitionContextKey = nil;
 {
     
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    
+
     UIView *toView = [toVC valueForKeyPath:self.toViewKeyPath];
     
     UIView *containerView = [transitionContext containerView];
@@ -259,6 +270,7 @@ const NSString *transitionContextKey = nil;
         [snapShotView removeFromSuperview];
         originView.hidden = NO;
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+        toVC.transitionType = TunVCTransitionType_None;
     }];
 }
 
@@ -299,6 +311,7 @@ const NSString *transitionContextKey = nil;
     maskAnimation.delegate = self;
     [maskLayer addAnimation:maskAnimation forKey:@"Circle"];
     [snapShotView removeFromSuperview];
+
 }
 
 - (void)animateForCircleInverseTransition:(id<UIViewControllerContextTransitioning>)transitionContext
@@ -332,6 +345,7 @@ const NSString *transitionContextKey = nil;
     maskAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     maskAnimation.delegate = self;
     [maskLayer addAnimation:maskAnimation forKey:@"CircleInvert"];
+    toVC.transitionType = TunVCTransitionType_None;
 }
 
 - (void)animateForPageTransition:(id<UIViewControllerContextTransitioning>)transitionContext
@@ -416,6 +430,7 @@ const NSString *transitionContextKey = nil;
         toView.layer.anchorPoint = CGPointMake(0.5, 0.5);
         toView.layer.position = CGPointMake(CGRectGetMidX([UIScreen mainScreen].bounds), CGRectGetMidY([UIScreen mainScreen].bounds));
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+        toVC.transitionType = TunVCTransitionType_None;
     }];
 }
 
@@ -469,4 +484,9 @@ const NSString *transitionContextKey = nil;
     return CGRectMake(x, y, v.frame.size.width, v.frame.size.height);
 }
 
+- (id)valueForUndefinedKey:(NSString *)key
+{
+    NSLog(@"valueForUndefineKey: %@", key);
+    return nil;
+}
 @end

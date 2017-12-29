@@ -23,12 +23,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     self.navigationController.delegate = self;
 }
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
